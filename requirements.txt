@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+exa_py
+notion-client
+PyGithub
+requests
+beautifulsoup4

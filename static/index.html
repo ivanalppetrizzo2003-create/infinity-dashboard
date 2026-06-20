@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity OS Console</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 点击激活层 (用于获取音频播放权限) -->
+    <div id="init-overlay" onclick="startSystem()">
+        <div class="init-btn">[ INITIATE MATRIX ]</div>
+        <div class="init-subtext">CLICK TO AUTHORIZE SYSTEM START</div>
+    </div>
+
+    <!-- 复杂科幻开机动画 -->
+    <div id="boot-screen" class="hidden">
+        <div class="boot-grid"></div>
+        <div class="boot-reticle">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+        </div>
+        <div class="boot-flash"></div>
+    </div>
+
+    <canvas id="particles"></canvas>
+    <div class="background-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+    
+    <div class="app-layout">
+        <aside class="sidebar glass boot-hidden">
+            <div class="logo"><h2>Infinity OS</h2><div class="version">v6.0 Cinema</div></div>
+            <nav class="nav-menu">
+                <a href="javascript:void(0)" class="nav-item active" id="nav-gems" onclick="switchView('view-gems')"><span class="icon">💎</span> 模块</a>
+                <a href="javascript:void(0)" class="nav-item" id="nav-skills" onclick="switchView('view-skills')"><span class="icon">🧬</span> 技能</a>
+                <a href="javascript:void(0)" class="nav-item" id="nav-army" onclick="switchView('view-army')"><span class="icon">🎖️</span> 兵营</a>
+                <a href="javascript:void(0)" class="nav-item" id="nav-status" onclick="switchView('view-status')"><span class="icon">📊</span> 状态</a>
+            </nav>
+            <div class="sidebar-footer"><div class="status-indicator"><span class="pulse"></span> 核心在线</div></div>
+        </aside>
+
+        <main class="content">
+            <!-- GEMS -->
+            <div id="view-gems" class="view-section active">
+                <header class="boot-hidden"><h1>Infinity Gauntlet</h1><p>全能外设中控台 / MCP 挂载矩阵</p></header>
+                <div class="orbit-container" style="--radius: 240px">
+                    <div class="orbit-ring boot-hidden"></div>
+                    <div class="orbit-center boot-hidden"><span class="hub-icon">⚙️</span><span class="hub-label">模块</span></div>
+                    <div class="orbit-slot boot-hidden" style="--angle:-90deg;--delay:0s;--glow:#00d4ff" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot on"></span><span class="card-icon">🌐</span><span class="card-label">Exa Search</span><div class="card-detail"><h4>全网语义搜索引擎</h4><p>基于自然语言理解的下一代搜索。能精准检索到全网的优质内容、文档和代码片段，并直接返回干净的数据。</p></div></div></div>
+                    <div class="orbit-slot boot-hidden" style="--angle:-45deg;--delay:0.4s;--glow:#e0e0e0" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot on"></span><span class="card-icon">📓</span><span class="card-label">Notion</span><div class="card-detail"><h4>知识库互联中枢</h4><p>与你的 Notion 工作区无缝连接。可自动读取笔记、项目看板，也能自动生成报告并写入到指定页面。</p></div></div></div>
+                    <div class="orbit-slot boot-hidden" style="--angle:0deg;--delay:0.8s;--glow:#a855f7" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot on"></span><span class="card-icon">🪨</span><span class="card-label">Obsidian</span><div class="card-detail"><h4>本地知识图谱</h4><p>直连本地 Markdown 笔记库。支持双向链接分析、内容检索和结构化抽取，保护隐私的同时提供强大的知识管理。</p></div></div></div>
+                    <div class="orbit-slot boot-hidden" style="--angle:45deg;--delay:1.2s;--glow:#3fb950" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot on"></span><span class="card-icon">🐙</span><span class="card-label">GitHub</span><div class="card-detail"><h4>开源仓库管理器</h4><p>管理代码仓库、Pull Requests、Issues。能够自动进行代码 Review，甚至直接创建分支并提交修复代码。</p></div></div></div>
+                    
+                    <div class="orbit-slot boot-hidden" style="--angle:135deg;--delay:1.6s;--glow:#f97316" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot off"></span><span class="card-icon">🌍</span><span class="card-label">Browser</span><div class="card-detail"><h4>无头浏览器引擎</h4><p>操控隐藏的浏览器实例，自动执行网页登录、点击、滑动操作，抓取动态渲染的网页内容，突破反爬机制。</p></div></div></div>
+                    <div class="orbit-slot boot-hidden" style="--angle:180deg;--delay:2s;--glow:#eab308" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot on"></span><span class="card-icon">📡</span><span class="card-label">Fetch RSS</span><div class="card-detail"><h4>情报订阅雷达</h4><p>24小时不间断监控全球各大技术博客、新闻源的 RSS 动态。第一时间捕获最新资讯并生成摘要推送。</p></div></div></div>
+                    <div class="orbit-slot boot-hidden" style="--angle:225deg;--delay:2.4s;--glow:#ec4899" onclick="selectCard(this)"><div class="orbit-card"><span class="status-dot on"></span><span class="card-icon">🧠</span><span class="card-label">Memory</span><div class="card-detail"><h4>向量记忆核心</h4><p>将历史对话与关键信息向量化存储。赋予系统长期的“潜意识”记忆，让它真正了解你的偏好与习惯。</p></div></div></div>
+                </div>
+            </div>
+
+            <!-- SKILLS -->
+            <div id="view-skills" class="view-section">
+                <header><h1>Agent Skills</h1><p>系统底层认知架构 / 点击图标查看详情</p></header>
+                <div class="orbit-container" style="--radius: 280px">
+                    <div class="orbit-ring"></div>
+                    <div class="orbit-center"><span class="hub-icon">🔬</span><span class="hub-label">技能</span></div>
+                    <div class="orbit-slot" style="--angle:-90deg;--delay:0s;--glow:#a855f7" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🧠</span><span class="card-label">Memory RAG</span><div class="card-detail"><h4>哈利波特的冥想盆</h4><p>AI 能够记住过往的对话和代码。遇到新问题时，自动从庞大的记忆库精准提取相关信息，确保上下文不丢失。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:-60deg;--delay:0.25s;--glow:#f97316" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🕵️</span><span class="card-label">Repo Analyzer</span><div class="card-detail"><h4>代码仓库透视眼</h4><p>一键全盘扫描本地或远程的代码仓库，分析文件依赖关系，生成全局架构图，让你快速掌握陌生项目。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:-30deg;--delay:0.5s;--glow:#ef4444" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">⚡</span><span class="card-label">Sandbox Bypass</span><div class="card-detail"><h4>越狱万能钥匙</h4><p>当自动化操作被安全沙盒拦截时，临时获取高级权限，直接操控物理机执行复杂的终端命令或网络请求。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:0deg;--delay:0.75s;--glow:#eab308" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🐝</span><span class="card-label">Subagent Swarm</span><div class="card-detail"><h4>多重影分身</h4><p>将庞大的任务拆解，瞬间召唤多个子 AI 助手。它们会并行查文档、写测试、敲代码，大幅提高系统效率。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:30deg;--delay:1s;--glow:#06b6d4" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🎯</span><span class="card-label">Reverse Interview</span><div class="card-detail"><h4>严苛的反向面试</h4><p>当你的需求过于模糊时，AI 会拒绝盲目执行，主动反问你一系列关键的业务细节，直到把需求完全理清。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:60deg;--delay:1.25s;--glow:#8b5cf6" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">⚖️</span><span class="card-label">Trade-off</span><div class="card-detail"><h4>诸葛亮的锦囊</h4><p>面对复杂技术选型，AI 会列出上、中、下三种方案，并深度对比各自的优缺点与性能差异，辅助你做决策。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:90deg;--delay:1.5s;--glow:#3b82f6" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🛡️</span><span class="card-label">Error Recovery</span><div class="card-detail"><h4>带死亡回放的玩家</h4><p>运行报错不慌乱。自动捕获错误日志与堆栈信息，进行深度的“死亡回放”分析，找出根因并提供修复代码。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:120deg;--delay:1.75s;--glow:#ec4899" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">📝</span><span class="card-label">Goal Rewriting</span><div class="card-detail"><h4>金牌项目经理</h4><p>当你提出无法实现或违背常理的任务时，AI 会强行介入，主动帮你修正并重新规划出一个合理可行的开发路径。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:150deg;--delay:2s;--glow:#10b981" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🦾</span><span class="card-label">Meta-Program</span><div class="card-detail"><h4>钢铁侠的纳米战甲</h4><p>如果在执行中发现缺少必要工具，AI 会直接自我编写新的脚本来给自己增加新功能，实现能力的自我进化。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:180deg;--delay:2.25s;--glow:#22c55e" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🌲</span><span class="card-label">Tree of Thought</span><div class="card-detail"><h4>奇异博士推演未来</h4><p>像下棋一样推演出多条可能的解决路径，自我评估每一条路径的成功率和潜在风险，确保系统只选择最优解。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:210deg;--delay:2.5s;--glow:#f43f5e" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🧪</span><span class="card-label">Hardcore TDD</span><div class="card-detail"><h4>强迫症级测试驱动</h4><p>强制要求先写好单元测试。只有当所有的测试用例都通过并亮起绿灯时，才允许系统继续编写后续的业务代码。</p></div></div></div>
+                    <div class="orbit-slot" style="--angle:240deg;--delay:2.75s;--glow:#64748b" onclick="selectCard(this)"><div class="orbit-card"><span class="card-icon">🗜️</span><span class="card-label">Context Condenser</span><div class="card-detail"><h4>三体人的脱水技能</h4><p>将几十万字的冗长聊天记录提炼浓缩成极其精简的核心知识点，大幅节省内存空间并在需要时瞬间复活记忆。</p></div></div></div>
+                </div>
+            </div>
+
+            <!-- ARMY -->
+            <div id="view-army" class="view-section">
+                <header><h1>Special Forces Army</h1><p>精锐特工名册 / 点击查看档案</p></header>
+                <div class="orbit-container">
+                    <div class="army-ring army-ring-1"></div>
+                    <div class="army-ring army-ring-2"></div>
+                    <div class="army-hero" onclick="this.classList.toggle('flipped')">
+                        <div class="card-inner">
+                            <div class="card-front"><span class="card-icon">🎨</span><span class="card-label">UI_Aesthete</span><span class="tag-active">已激活 🟢</span></div>
+                            <div class="card-back"><h4>前卫的艺术总监</h4><p>极度挑剔的视觉审美，精通磨砂玻璃与暗黑模式，能直接调用生图引擎画出高保真草图。</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATUS -->
+            <div id="view-status" class="view-section">
+                <header><h1>系统状态</h1><p>Agent OS 实时运行面板</p></header>
+                <div class="status-grid">
+                    <div class="stat-card" style="--glow:#58a6ff"><div class="stat-number" data-target="7">0</div><div class="stat-label">MCP 模块已挂载</div><div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div></div>
+                    <div class="stat-card" style="--glow:#a855f7"><div class="stat-number" data-target="12">0</div><div class="stat-label">认知技能已注入</div><div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div></div>
+                    <div class="stat-card" style="--glow:#3fb950"><div class="stat-number" data-target="1">0</div><div class="stat-label">特种兵已入列</div><div class="stat-bar"><div class="stat-fill" style="width:33%"></div></div></div>
+                    <div class="stat-card" style="--glow:#f97316"><div class="stat-number" data-target="4">0</div><div class="stat-label">插件包已部署</div><div class="stat-bar"><div class="stat-fill" style="width:80%"></div></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- SVG 噪点源 -->
+    <svg style="display:none;">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+    </svg>
+
+    <script src="app.js?v=7"></script>
+</body>
+</html>
